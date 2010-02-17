@@ -1,11 +1,10 @@
 
-(function($, server){
-	
-	server.methods('GET DELETE PUT POST');
-	
-	GET( /test_path.*/, function(e,on,un,hit){
-		on('sos',function(){})
-		console.log("HOME")
-	});
-	
-})(jQuery, platform());
+(function(P, $){
+  
+  P.methods('GET DELETE PUT POST');
+  
+  P.GET( /test_path.*/, function(e){
+    P.on('sos',function(){})
+  });
+  
+})(platform(), jQuery);
