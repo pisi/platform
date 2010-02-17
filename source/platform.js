@@ -1,31 +1,32 @@
 /**
  * JS.PLATFORM
  */
-(function($, window){
+(function($){
 
-window.platform= function(){ return application() }                                    //T1
+platform= function(){ return __ }                                                      //T1
 
 /** Core */
 var
   config= {                                                                            //T7
     debug: true
   },
-  api= {
-    version: '0.1',                                                                    //T2
+  __= {
+    version: '0.1.1',                                                                  //T2
     hello: function(){ return 'Hello' },                                               //T3
-    reset: function(){ return kick('Reset') }
+    kick: function(events, data){ incident(many(events), data) },                      //T5 T6
+    on: function(events, reactions){ event(true, many(events), many(reactions)) },     //T5 T6
+    un: function(events, reactions){ event(false, many(events), many(reactions)) },    //T5 T6
+    reboot: function(){ return __.kick('Reboot') }
   },
-  application= function(){ return api },                                               //T1
-  storage= {},                                                                         //T4
-  kick= function(events, data){ incident(many(events), data) },                        //T5
-  on= function(events, reactions){ event(true, many(events), many(reactions)) },       //T5
-  un= function(events, reactions){ event(false, many(events), many(reactions)) },      //T5
-  pool= $(document)                                                                    //T14
+  pool= $(document),                                                                   //T14
+  storage= {}                                                                          //T4
 
-  $.extend(api, { on: on, un: un, kick: kick });                                       //T6
-
-	on('Reset', function(){ storage= {} });                                              //T20
+__.on('Reboot', boot);                                                                 //T20
   
+function boot(e){                                                                      //T20
+  storage= {
+  }
+}
 function many(subjects){ return typeof subjects=="object" && subjects || [subjects] }  //T-
 function intervention(event){ return /^[A-Z]/.test(event) }                            //T-
 function event(create, events, reactions){
@@ -46,71 +47,71 @@ function incident(events, data){                                                
 
 /** HTTP Server (Responder) */
 (function Responder(){
-  $.extend(api, {
-    request: function(url, method){ kick('Request', [method, url]) },                  //T16
-    methods: function(methods){ kick('methodsAllowed', methods) }                      //T17
+  $.extend(__, {
+    request: function(url, method){ __.kick('Request', [method, url]) },               //T16
+    methods: function(methods){ __.kick('methodsAllowed', methods) }                   //T17
   });
   var
     store,                                                                             //T18
     routes= {}                                                                         //T19
-  on('Reset', reset);                                                                  //T20
-  on('methodsAllowed', allow_methods);                                                 //T*
-  on('routeDefined', add_route);                                                       //T*
-  on('Request', [validate_method, validate_cookie, validate_query ]);
-  on('validMethod', set_method);
-  on('validCookie', set_cookie);
-  on('validQuery', set_query);
-  on('invalidQuery', respond_400);
-  on('newQuery', [match_route, match_method]);
-  reset();
+  __.on('Reboot', boot);                                                               //T20
+  __.on('methodsAllowed', allow_methods);                                              //T*
+  __.on('routeDefined', add_route);                                                    //T*
+  __.on('Request', [validate_method, validate_cookie, validate_query ]);
+  __.on('validMethod', set_method);
+  __.on('validCookie', set_cookie);
+  __.on('validQuery', set_query);
+  __.on('invalidQuery', respond_400);
+  __.on('newQuery', [match_route, match_method]);
+  boot();
 
-  function reset(e){                                                                   //T20
-		store= storage.responder= {
+  function boot(e){                                                                    //T20
+    store= storage.responder= {
       method: '',                                                                      //T-
       methods: '',                                                                     //T-
       cookies: {},                                                                     //T-
       query: '',                                                                       //T-
       route: undefined                                                                 //T-
     }
-	}
-	function allow_methods(e,methods){
-		if (store.methods) return;
+  }
+  function allow_methods(e,methods){
+    if (store.methods) return;
     store.methods= methods;
     $.each(methods.split(' '), function(i, method){
       routes[method]= [];
-      window[method]= function(url, callback){ kick('routeDefined', [method, url, callback]) }
+      __[method]= function(url, callback){ __.kick('routeDefined', [method, url, callback]) }
     });
   }
   function validate_method(e,method,query,cookie,post){
     var
       method= method && method || 'GET',
       valid= method && store.methods.indexOf(method) > -1
-    if (!valid) return kick('invalidMethod', method);
-    kick('validMethod', method);
+    if (!valid) return __.kick('invalidMethod', method);
+    __.kick('validMethod', method);
   }
   function set_method(e,method){
     store.method= method;
-    kick('newMethod');
+    __.kick('newMethod');
   }
   function validate_cookie(e,method,query,cookie,post){
-    kick('noCookie');
+    __.kick('noCookie');
   }
   function set_cookie(e,cookie){
     store.cookie= cookie;
-    kick('newCookie');
+    __.kick('newCookie');
   }
   function validate_query(e,method,query,cookie,post){
     var
       valid= /\/.*/.test(query)
-    if (!valid) return kick('invalidQuery');
-    kick('validQuery', query);
+    if (!valid) return __.kick('invalidQuery');
+    __.kick('validQuery', query);
   }
   function set_query(e,query){
     store.query= query;
-    kick('newQuery');
+    __.kick('newQuery');
   }
   function respond_400(e,query){
-    kick('STATUS',400)
+    __.kick('STATUS',400)
   }
   function add_route(e,method,route,callback){
     routes[method].push({
@@ -125,14 +126,14 @@ function incident(events, data){                                                
         query= store.query.substr(1),
         match= route.route.test(query);
       store.route= !store.route && match && route;
-      store.route && route.callback(e,on,un,kick); // «««« TEMPORARY
+      store.route && route.callback.apply(__);
     });
-    if (store.route) return kick('validRoute');
-    kick('noRoute');
+    if (store.route) return __.kick('validRoute');
+    __.kick('noRoute');
   }
   function match_method(e){
-    kick('HTTP_GET')
+    __.kick('http_GET')
   }
 })();
 
-})(jQuery, this);
+})(jQuery);
