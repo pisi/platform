@@ -75,6 +75,8 @@ platform(function Responder(__, storage){                                       
     methods: function(methods){ __.kick('methodsAllowed', methods) }                   //T17
   });
   var
+    config= {
+    },
     store,
     routes= {}                                                                         //T19
   __.on('Reboot', boot);                                                               //T20
