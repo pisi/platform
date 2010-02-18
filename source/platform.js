@@ -3,7 +3,7 @@
  */
 (function($){
 
-platform= function(module){ return module && mod.apply(__, arguments) || __ }          //T1
+platform= function(module){ return module && mod.apply(__, arguments) || __ }          //T1 T22
 
 /** Core */
 var
@@ -15,17 +15,15 @@ var
     kick: function(events, data){ incident(many(events), data) },                      //T5 T6
     on: function(events, reactions){ event(true, many(events), many(reactions)) },     //T5 T6
     un: function(events, reactions){ event(false, many(events), many(reactions)) },    //T5 T6
-    reboot: function(){ return __.kick('Reboot') }
+    reboot: function(){ return __.kick('Reboot') }                                     //T21
   },
   storage,                                                                             //T4
   pool= $(document)                                                                    //T14
 
 __.on('Reboot', boot);                                                                 //T20
 
-function mod(module, defaults){
-  var
-    store= function(){ return storage[module.name]= defaults }
-  return module(__, store); 
+function mod(module, defaults){                                                        //T22
+  return module(__, function(){ return storage[module.name]= defaults });              //T22
 }
 function boot(e){ storage= {} }                                                        //T20
 function many(subjects){ return typeof subjects=="object" && subjects || [subjects] }  //T-
@@ -46,7 +44,8 @@ function incident(events, data){                                                
   });
 }
 
-boot();
+boot();                                                                                //T20
+
 })(jQuery);
 
 (function($){
@@ -151,7 +150,7 @@ platform(function Responder(__, storage){                                       
     __.kick('http_GET')
   }
   
-  boot();
+	boot();
 }, {
   method: '',                                                                          //T-
   methods: '',                                                                         //T-

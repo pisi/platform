@@ -143,6 +143,9 @@ test( 'T19: Maintains private list of defined routes', function(){
   equal( typeof routes, 'undefined' );
   equal( typeof __.routes, 'undefined' );
 });
+
+module( 'Core' );
+
 test( 'T20: Inner state can be reset', function(){
   var
     check= function(){
@@ -151,6 +154,27 @@ test( 'T20: Inner state can be reset', function(){
   __.on('Reboot', check);
   __.kick('Reboot');
   __.un('Reboot', check);
+});
+test( 'T21: API - reboot', function(){
+  equal( typeof __.reboot, 'function' );
+  var
+    check= function(){
+      ok( true );
+    }
+  __.on('Reboot', check);
+  __.reboot();
+  __.un('Reboot', check);
+})
+test( 'T22: Public API global namespace module-adding function mode', function(){
+  var
+    storage_defaults= 'object or anything',
+    module= function(__, storage){
+      equal( typeof __, 'object');
+      equal( typeof __.version, 'string');
+      equal( typeof storage, 'function');
+      equal( storage(), storage_defaults);
+    },
+    mod= platform(module, storage_defaults)
 });
 
 test( 'Misc. sample requests', function(){
