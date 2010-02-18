@@ -167,12 +167,16 @@ test( 'T21: API - reboot', function(){
 })
 test( 'T22: Public API global namespace module-adding function mode', function(){
   var
-    storage_defaults= 'object or anything',
+    storage_defaults= {
+      test_value: 123
+    },
     module= function(__, storage){
       equal( typeof __, 'object');
       equal( typeof __.version, 'string');
       equal( typeof storage, 'function');
-      equal( storage(), storage_defaults);
+      equal( typeof storage(), 'object');
+      equal( typeof storage().test_value, 'number');
+      equal( storage().test_value, storage_defaults.test_value);
     },
     mod= platform(module, storage_defaults)
 });

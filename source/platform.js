@@ -50,17 +50,21 @@ boot();                                                                         
 
 (function($){
 
-/** 
- * Hello World sample platform module 
- * Can be triggered either by platform().hello()
- */
-platform(function HelloWorld(__){
+/** Hello World sample platform module */
+platform(function HelloWorld(__, storage){
   $.extend(__, {
     hello: function(url, method){ __.kick('Hello') },                                  //T3
   });
+  var store
+  __.on('Reboot', boot);                                                               //T*
   __.on('Hello', hello);                                                               //T*
   
-  function hello(){ alert('__: Hello World!') }
+  function boot(){ store= storage() }
+  function hello(){ alert(store.shout) }
+  
+  boot();
+}, {
+  shout: '__: Hello World!'
 });
 
 })(jQuery);
@@ -150,7 +154,7 @@ platform(function Responder(__, storage){                                       
     __.kick('http_GET')
   }
   
-	boot();
+  boot();
 }, {
   method: '',                                                                          //T-
   methods: '',                                                                         //T-
