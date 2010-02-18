@@ -1,10 +1,10 @@
 
-(function(P, $){
+(function(__, $){
   
-  P.methods('GET DELETE PUT POST');
+  __.methods('GET DELETE PUT POST');
   
-  P.GET( /test_path.*/, function(e){
-    P.on('sos',function(){})
+  __.GET( /test_path.*/, function(e){
+    __.on('sos',function(){})
   });
   
 })(platform(), jQuery);

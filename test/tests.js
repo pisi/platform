@@ -13,9 +13,8 @@ test( 'T2: API - version', function(){
   equal( typeof __.version, 'string' );
   equal( __.version, '0.1.1' );
 });
-test( 'T3: API - hello', function(){
+test( 'T3: API - hello World sample', function(){
   equal( typeof __.hello, 'function' );
-  equal( __.hello(), 'Hello' );
 });
 test( 'T6: API - events (only for testing purposes)', function(){
   equal(typeof __.on, 'function');

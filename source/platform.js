@@ -3,7 +3,7 @@
  */
 (function($){
 
-platform= function(){ return __ }                                                      //T1
+platform= function(module){ return module && mod.apply(__, arguments) || __ }          //T1
 
 /** Core */
 var
@@ -12,21 +12,22 @@ var
   },
   __= {
     version: '0.1.1',                                                                  //T2
-    hello: function(){ return 'Hello' },                                               //T3
     kick: function(events, data){ incident(many(events), data) },                      //T5 T6
     on: function(events, reactions){ event(true, many(events), many(reactions)) },     //T5 T6
     un: function(events, reactions){ event(false, many(events), many(reactions)) },    //T5 T6
     reboot: function(){ return __.kick('Reboot') }
   },
-  pool= $(document),                                                                   //T14
-  storage= {}                                                                          //T4
+  storage,                                                                             //T4
+  pool= $(document)                                                                    //T14
 
 __.on('Reboot', boot);                                                                 //T20
-  
-function boot(e){                                                                      //T20
-  storage= {
-  }
+
+function mod(module, defaults){
+  var
+    store= function(){ return storage[module.name]= defaults }
+  return module(__, store); 
 }
+function boot(e){ storage= {} }                                                        //T20
 function many(subjects){ return typeof subjects=="object" && subjects || [subjects] }  //T-
 function intervention(event){ return /^[A-Z]/.test(event) }                            //T-
 function event(create, events, reactions){
@@ -45,14 +46,36 @@ function incident(events, data){                                                
   });
 }
 
+boot();
+})(jQuery);
+
+(function($){
+
+/** 
+ * Hello World sample platform module 
+ * Can be triggered either by platform().hello()
+ */
+platform(function HelloWorld(__){
+  $.extend(__, {
+    hello: function(url, method){ __.kick('Hello') },                                  //T3
+  });
+  __.on('Hello', hello);                                                               //T*
+  
+  function hello(){ alert('__: Hello World!') }
+});
+
+})(jQuery);
+
+(function($){
+
 /** HTTP Server (Responder) */
-(function Responder(){
+platform(function Responder(__, storage){                                              //T18
   $.extend(__, {
     request: function(url, method){ __.kick('Request', [method, url]) },               //T16
     methods: function(methods){ __.kick('methodsAllowed', methods) }                   //T17
   });
   var
-    store,                                                                             //T18
+    store,
     routes= {}                                                                         //T19
   __.on('Reboot', boot);                                                               //T20
   __.on('methodsAllowed', allow_methods);                                              //T*
@@ -63,17 +86,8 @@ function incident(events, data){                                                
   __.on('validQuery', set_query);
   __.on('invalidQuery', respond_400);
   __.on('newQuery', [match_route, match_method]);
-  boot();
-
-  function boot(e){                                                                    //T20
-    store= storage.responder= {
-      method: '',                                                                      //T-
-      methods: '',                                                                     //T-
-      cookies: {},                                                                     //T-
-      query: '',                                                                       //T-
-      route: undefined                                                                 //T-
-    }
-  }
+  
+  function boot(e){ store= storage() }
   function allow_methods(e,methods){
     if (store.methods) return;
     store.methods= methods;
@@ -134,6 +148,14 @@ function incident(events, data){                                                
   function match_method(e){
     __.kick('http_GET')
   }
-})();
+  
+  boot();
+}, {
+  method: '',                                                                          //T-
+  methods: '',                                                                         //T-
+  cookies: {},                                                                         //T-
+  query: '',                                                                           //T-
+  route: undefined                                                                     //T-
+});
 
 })(jQuery);
