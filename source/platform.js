@@ -9,7 +9,7 @@ var
     debug: true
   },
   __= {
-    version: '0.1.1',                                                                  //T2
+    version: '0.1.2',                                                                  //T2
     kick: function(evs, data){ return action(many(evs), data) },                       //T5 T6
     on: function(evs, reactions){ return event(true, many(evs), many(reactions)) },    //T5 T6
     un: function(evs, reactions){ return event(false, many(evs), many(reactions)) },   //T5 T6

@@ -11,7 +11,7 @@ test( 'T1: Public API global namespace', function(){
 });
 test( 'T2: API - version', function(){
   equal( typeof __.version, 'string' );
-  equal( __.version, '0.1.1' );
+  equal( __.version, '0.1.2' );
 });
 test( 'T3: API - hello World sample', function(){
   equal( typeof __.hello, 'function' );
