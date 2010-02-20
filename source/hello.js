@@ -1,5 +1,5 @@
 
-(function($){
+(function(){
 
 platform(function HelloWorld(__, storage){
   var store
@@ -18,4 +18,4 @@ platform(function HelloWorld(__, storage){
   shout: '__: Hello World!'
 });
 
-})(jQuery);
+})();
