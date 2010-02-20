@@ -26,21 +26,21 @@ function use_storage(name, data){ return function(){ return storage[name]= data 
 function extend(api){ return $.extend(__, api) }                                       //T23
 function many(subjects){ return typeof subjects=="object" && subjects || [subjects] }  //T-
 function event(create, events, reactions){ $.each(many(events), process); return __    //T10
-	function process(i,event){ $.each(many(reactions), handle)                           //T8
-		function handle(ii,reaction){ unbind() && create && bind()                         //T8
-			function unbind(){ return pool.unbind(event, reaction) }                         //T9
-		  function bind(){ return pool.bind(event, reaction) }                             //T5
-		}
-	}
+  function process(i,event){ $.each(many(reactions), handle)                           //T8
+    function handle(ii,reaction){ unbind() && create && bind()                         //T8
+      function unbind(){ return pool.unbind(event, reaction) }                         //T9
+      function bind(){ return pool.bind(event, reaction) }                             //T5
+    }
+  }
 }
 function trigger(events, data){ report(); $.each(many(events), process); return __     //T11 T12 T13 T15
-	function report(){ config.debug && log() }
-	function log(){ console.log(events.length==1 && events[0] || events, data || '') }   //D
+  function report(){ config.debug && log() }
+  function log(){ console.log(events.length==1 && events[0] || events, data || '') }   //D
   function process(i,event){ (action() || sane()) && pool.trigger(event, data)         //T5
-		function action(){ return /^[A-Z]/.test(event) && reset() }                        //T-
-		function sane(){ return true }
-		function reset(){ console.log("USER"); return true }
-	}
+    function action(){ return /^[A-Z]/.test(event) && reset() }                        //T-
+    function sane(){ return true }
+    function reset(){ console.log("USER"); return true }
+  }
 }
 
 init();                                                                                //T20
