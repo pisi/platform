@@ -2,16 +2,16 @@
 (function($){
 
 platform(function Responder(__, storage){                                              //T18
-  $.extend(__, {
-    request: function(url, method){ __.kick('Request', [method, url]) },               //T16
-    methods: function(methods){ __.kick('methodsAllowed', methods) }                   //T17
-  });
   var
     config= {
     },
     store,
     routes= {}                                                                         //T19
   __
+  .extend({
+    request: function(url, method){ __.kick('Request', [method, url]) },               //T16
+    methods: function(methods){ __.kick('methodsAllowed', methods) }                   //T17
+  })
   .on('Restart', init)                                                                 //T20
   .on('methodsAllowed', allow_methods)                                                 //T*
   .on('routeDefined', add_route)                                                       //T*

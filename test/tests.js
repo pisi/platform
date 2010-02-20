@@ -21,6 +21,16 @@ test( 'T6: API - events (only for testing purposes)', function(){
   equal(typeof __.un, 'function');
   equal(typeof __.kick, 'function');
 })
+test( 'T23: API - extend', function(){
+  expect(1);
+  __.extend({
+    my_public_method: function(){
+      ok( true );
+      return __;
+    }
+  })
+  .my_public_method();
+})
 test( 'T4: Maintains private data storage inside closure', function(){
   equal( typeof storage, 'undefined' );
   equal( typeof __.storage, 'undefined' );

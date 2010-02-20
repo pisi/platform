@@ -2,11 +2,11 @@
 (function($){
 
 platform(function HelloWorld(__, storage){
-  $.extend(__, {
-    hello: function(url, method){ __.kick('Hello') },                                  //T3
-  });
   var store
   __
+  .extend({
+    hello: function(url, method){ __.kick('Hello') },                                  //T3
+  })
   .on('Restart', init)                                                                 //T*
   .on('Hello', hello);                                                                 //T*
   

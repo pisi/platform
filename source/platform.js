@@ -13,7 +13,8 @@ var
     kick: function(events, data){ return action(many(events), data) },                 //T5 T6
     on: function(events, reactions){ return event(true, many(events), many(reactions)) }, //T5 T6
     un: function(events, reactions){ return event(false, many(events), many(reactions)) }, //T5 T6
-    restart: function(){ return __.kick('Restart') }                                   //T21
+    restart: function(){ return __.kick('Restart') },                                  //T21
+    extend: function(methods){ return extend(methods) }
   },
   storage,                                                                             //T4
   pool= $(document)                                                                    //T14
@@ -24,6 +25,7 @@ function init(e){ storage= {} }                                                 
 function use(module, defaults){                                                        //T22
   return module(__, function(){ return storage[module.name]= defaults });              //T22
 }
+function extend(api){ return $.extend(__, api) }                                       //T23
 function many(subjects){ return typeof subjects=="object" && subjects || [subjects] }  //T-
 function event(create, events, reactions){
   $.each(events, function(i, event){                                                   //T10
