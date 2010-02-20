@@ -3,7 +3,6 @@
 
 platform= function(module){ return module && use.apply(__, arguments) || __ }          //T1 T22
 
-/** Core */
 var
   config= {                                                                            //T7
     debug: true
