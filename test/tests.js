@@ -187,8 +187,8 @@ test( 'T22: Public API global namespace module-adding function mode', function()
       equal( typeof storage(), 'object');
       equal( typeof storage().test_value, 'number');
       equal( storage().test_value, storage_defaults.test_value);
-    },
-    mod= platform(module, storage_defaults)
+    }
+  platform(module, storage_defaults);
 });
 
 test( 'Misc. sample requests', function(){
