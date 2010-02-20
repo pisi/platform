@@ -9,9 +9,9 @@ var
   },
   __= {
     version: '0.1.2',                                                                  //T2
-    kick: function(evs, data){ return action(many(evs), data) },                       //T5 T6
-    on: function(evs, reactions){ return event(true, many(evs), many(reactions)) },    //T5 T6
-    un: function(evs, reactions){ return event(false, many(evs), many(reactions)) },   //T5 T6
+    kick: function(events, data){ return trigger(events, data) },                      //T5 T6
+    on: function(events, reactions){ return event(true, events, reactions) },          //T5 T6
+    un: function(events, reactions){ return event(false, events, reactions) },         //T5 T6
     restart: function(){ return __.kick('Restart') },                                  //T21
     extend: function(methods){ return extend(methods) }                                //T23
   },
@@ -25,24 +25,23 @@ function use(module, defaults){ return module(__, use_storage(module.name,defaul
 function use_storage(name, data){ return function(){ return storage[name]= data }}     //T22
 function extend(api){ return $.extend(__, api) }                                       //T23
 function many(subjects){ return typeof subjects=="object" && subjects || [subjects] }  //T-
-function event(create, events, reactions){
-  $.each(events, function(i, event){                                                   //T10
-    $.each(reactions, function(){                                                      //T8
-      create && pool.unbind(event, this);                                              //T9
-      pool[create && 'bind' || 'unbind'](event, this);                                 //T5
-    });
-  });
-  return __;
+function event(create, events, reactions){ $.each(many(events), process); return __    //T10
+	function process(i,event){ $.each(many(reactions), handle)                           //T8
+		function handle(ii,reaction){ unbind() && create && bind()                         //T8
+			function unbind(){ return pool.unbind(event, reaction) }                         //T9
+		  function bind(){ return pool.bind(event, reaction) }                             //T5
+		}
+	}
 }
-function action(events, data){                                                         //T11 T12 T13
-  config.debug && console.log(events.length==1 && events[0] || events, data || '');    //D
-  $.each(events, function(i, event){                                                   //T15
-    intervention(event) && console.log("USER EVENT")                                   //T*
-    pool.trigger(event, data);                                                         //T5
-  });
-  return __;
+function trigger(events, data){ report(); $.each(many(events), process); return __     //T11 T12 T13 T15
+	function report(){ config.debug && log() }
+	function log(){ console.log(events.length==1 && events[0] || events, data || '') }   //D
+  function process(i,event){ (action() || sane()) && pool.trigger(event, data)         //T5
+		function action(){ return /^[A-Z]/.test(event) && reset() }                        //T-
+		function sane(){ return true }
+		function reset(){ console.log("USER"); return true }
+	}
 }
-function intervention(event){ return /^[A-Z]/.test(event) }                            //T-
 
 init();                                                                                //T20
 
