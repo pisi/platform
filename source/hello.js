@@ -6,13 +6,14 @@ platform(function HelloWorld(__, storage){
     hello: function(url, method){ __.kick('Hello') },                                  //T3
   });
   var store
-  __.on('Reboot', boot);                                                               //T*
-  __.on('Hello', hello);                                                               //T*
+  __
+  .on('Restart', init)                                                                 //T*
+  .on('Hello', hello);                                                                 //T*
   
-  function boot(){ store= storage() }
+  function init(){ store= storage() }
   function hello(){ alert(store.shout) }
   
-  boot();
+  init();
 }, {
   shout: '__: Hello World!'
 });

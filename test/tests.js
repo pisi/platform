@@ -155,15 +155,15 @@ test( 'T20: Inner state can be reset', function(){
   __.kick('Reboot');
   __.un('Reboot', check);
 });
-test( 'T21: API - reboot', function(){
-  equal( typeof __.reboot, 'function' );
+test( 'T21: API - restart', function(){
+  equal( typeof __.restart, 'function' );
   var
     check= function(){
       ok( true );
     }
-  __.on('Reboot', check);
-  __.reboot();
-  __.un('Reboot', check);
+  __.on('Restart', check);
+  __.restart();
+  __.un('Restart', check);
 })
 test( 'T22: Public API global namespace module-adding function mode', function(){
   var

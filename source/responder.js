@@ -11,21 +11,22 @@ platform(function Responder(__, storage){                                       
     },
     store,
     routes= {}                                                                         //T19
-  __.on('Reboot', boot);                                                               //T20
-  __.on('methodsAllowed', allow_methods);                                              //T*
-  __.on('routeDefined', add_route);                                                    //T*
-  __.on('Request', [validate_method, validate_cookie, validate_query ]);
-  __.on('validMethod', set_method);
-  __.on('validCookie', set_cookie);
-  __.on('validQuery', set_query);
-  __.on('invalidQuery', respond_400);
-  __.on('newQuery', [match_route, match_method]);
+  __
+  .on('Restart', init)                                                                 //T20
+  .on('methodsAllowed', allow_methods)                                                 //T*
+  .on('routeDefined', add_route)                                                       //T*
+  .on('Request', [validate_method, validate_cookie, validate_query ])
+  .on('validMethod', set_method)
+  .on('validCookie', set_cookie)
+  .on('validQuery', set_query)
+  .on('invalidQuery', respond_400)
+  .on('newQuery', [match_route, match_method]);
   
-  function boot(e){ store= storage() }
+  function init(e){ store= storage() }
   function allow_methods(e,methods){
     if (store.methods) return;
     store.methods= methods;
-    $.each(methods.split(' '), function(i, method){
+    $.each(methods.split(/ /), function(i, method){
       routes[method]= [];
       __[method]= function(url, callback){ __.kick('routeDefined', [method, url, callback]) }
     });
@@ -83,7 +84,7 @@ platform(function Responder(__, storage){                                       
     __.kick('http_GET')
   }
   
-  boot();
+  init();
 }, {
   method: '',                                                                          //T-
   methods: '',                                                                         //T-
