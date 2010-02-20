@@ -1,4 +1,4 @@
-// __ is platform
+
 (function($){
 
 platform= function(module, store){ return module && use.apply(__, arguments) || __ }   //T1 T22
