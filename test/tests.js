@@ -31,6 +31,22 @@ test( 'T23: API - extend', function(){
   })
   .my_public_method();
 })
+test( 'T24: jQuery.__ namespace convenient shortcut', function(){
+  equal( typeof jQuery.__, 'function');
+  equal( typeof jQuery.__(), 'object');
+  equal( typeof jQuery.__(function TestModule(___){
+    equal( typeof ___, 'object' );
+  },{ value: 'value' }), 'object');
+  equal( typeof jQuery.__(function TestModule(___, storage){
+    var
+      store= storage();
+    equal( typeof ___, 'object' );
+    equal( typeof storage, 'function' );
+    equal( typeof store, 'object' );
+    equal( typeof store.value, 'string' );
+    equal( store.value, 'value' );
+  },{ value: 'value' }), 'object');
+});
 test( 'T4: Maintains private data storage inside closure', function(){
   equal( typeof storage, 'undefined' );
   equal( typeof __.storage, 'undefined' );

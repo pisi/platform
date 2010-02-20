@@ -1,7 +1,8 @@
-
+// __ is platform
 (function($){
 
-platform= function(module){ return module && use.apply(__, arguments) || __ }          //T1 T22
+platform= function(module, store){ return module && use.apply(__, arguments) || __ }   //T1 T22
+$.__= function(){ return platform.apply(__, arguments) }                               //T24
 
 var
   config= {                                                                            //T7
