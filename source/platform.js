@@ -10,11 +10,11 @@ var
   },
   __= {
     version: '0.1.1',                                                                  //T2
-    kick: function(events, data){ return action(many(events), data) },                 //T5 T6
-    on: function(events, reactions){ return event(true, many(events), many(reactions)) }, //T5 T6
-    un: function(events, reactions){ return event(false, many(events), many(reactions)) }, //T5 T6
+    kick: function(evs, data){ return action(many(evs), data) },                       //T5 T6
+    on: function(evs, reactions){ return event(true, many(evs), many(reactions)) },    //T5 T6
+    un: function(evs, reactions){ return event(false, many(evs), many(reactions)) },   //T5 T6
     restart: function(){ return __.kick('Restart') },                                  //T21
-    extend: function(methods){ return extend(methods) }
+    extend: function(methods){ return extend(methods) }                                //T23
   },
   storage,                                                                             //T4
   pool= $(document)                                                                    //T14
@@ -22,9 +22,8 @@ var
 __.on('Restart', init);                                                                //T20
 
 function init(e){ storage= {} }                                                        //T20
-function use(module, defaults){                                                        //T22
-  return module(__, function(){ return storage[module.name]= defaults });              //T22
-}
+function use(module, defaults){ return module(__, use_storage(module.name,defaults)) } //T22
+function use_storage(name, data){ return function(){ return storage[name]= data }}     //T22
 function extend(api){ return $.extend(__, api) }                                       //T23
 function many(subjects){ return typeof subjects=="object" && subjects || [subjects] }  //T-
 function event(create, events, reactions){
