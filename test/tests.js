@@ -207,6 +207,15 @@ test( 'T22: Public API global namespace module-adding function mode', function()
   platform(module, storage_defaults);
 });
 
+module( 'Intruder' );
+
+test( 'T25: Private variables intrusion attempts through event', function(){
+  __.kick('EventIntrusion');
+});
+test( 'T26: Private variables intrusion attempts by API method', function(){
+  __.intrude();
+});
+
 test( 'Misc. sample requests', function(){
   __.request(3,'GET');
   __.request('','POST');
