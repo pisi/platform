@@ -37,11 +37,7 @@ function event(create, events, reactions){ $.each(many(events), process); return
 function trigger(events, data){ report(); $.each(many(events), process); return __     //T11 T12 T13 T15
   function report(){ config.debug && log() }
   function log(){ console.log(events.length==1 && events[0] || events, data || '') }   //D
-  function process(i,event){ (action() || sane()) && pool.trigger(event, data)         //T5
-    function action(){ return /^[A-Z]/.test(event) && reset() }                        //T-
-    function sane(){ return true }
-    function reset(){ console.log("USER"); return true }
-  }
+  function process(i,event){ pool.trigger(event, data) }                               //T5
 }
 
 init();                                                                                //T20
