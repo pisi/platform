@@ -10,8 +10,10 @@ test( 'T1: Public API global namespace', function(){
   equal( typeof platform(), 'object' );
 });
 test( 'T2: API - version', function(){
-  equal( typeof __.version, 'string' );
-  equal( __.version, '0.1.2' );
+  equal( typeof __.ver, 'function' );
+  equal( typeof __.ver(), 'object' );
+  equal( typeof __.ver().__, 'string' );
+  equal( __.ver().__, '0.1.3' );
 });
 test( 'T3: API - hello World sample', function(){
   equal( typeof __.hello, 'function' );
@@ -20,17 +22,17 @@ test( 'T6: API - events (only for testing purposes)', function(){
   equal(typeof __.on, 'function');
   equal(typeof __.un, 'function');
   equal(typeof __.kick, 'function');
-})
-test( 'T23: API - extend', function(){
+});
+test( 'T23: API - api (for extending the API)', function ApiTestModule(){
   expect(1);
-  __.extend({
+  __.api('0.1', {
     my_public_method: function(){
       ok( true );
       return __;
     }
   })
   .my_public_method();
-})
+});
 test( 'T24: jQuery.__ namespace convenient shortcut', function(){
   equal( typeof jQuery.__, 'function');
   equal( typeof jQuery.__(), 'object');
@@ -55,6 +57,9 @@ test( 'T7: Private configuration', function(){
   equal( typeof config, 'undefined' );
   equal( typeof __.config, 'undefined' );
 });
+
+module( 'Events' );
+
 test( 'T5: Reacts on event kick', function(){
   var
     check= function(){
@@ -198,7 +203,9 @@ test( 'T22: Public API global namespace module-adding function mode', function()
     },
     module= function(__, storage){
       equal( typeof __, 'object');
-      equal( typeof __.version, 'string');
+      equal( typeof __.ver, 'function');
+      equal( typeof __.ver(), 'object');
+      equal( typeof __.ver().__, 'string');
       equal( typeof storage, 'function');
       equal( typeof storage(), 'object');
       equal( typeof storage().test_value, 'number');
@@ -217,12 +224,12 @@ test( 'T26: Private variables intrusion attempts by API method', function(){
 });
 
 test( 'Misc. sample requests', function(){
-  __.request(3,'GET');
-  __.request('','POST');
-  __.request('/rere','PUTS');
-  __.request('/rere','PUT');
-  __.request('/test_path/','PUT');
-  __.request('/test_path/','GET');
+  __.request('GET', 3);
+  __.request('POST', '');
+  __.request('PUTS', '/rere');
+  __.request('PUT', '/rere');
+  __.request('PUT', '/test_path/');
+  __.request('GET', '/test_path/');
 });
 
 })(platform());
