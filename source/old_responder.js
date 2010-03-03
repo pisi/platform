@@ -59,9 +59,10 @@ platform(function Responder(__, storage){                                       
     store.query= query;
     __.kick('newQuery');
   }
-  function respond_400(e,query){
-    __.kick('STATUS',400)
-  }
+  function respond(status){ __.kick('STATUS',status) }
+	function respond_400(e,query){ respond(400) }
+  function respond_404(e,query){ respond(404) }
+  function respond_405(e,query){ respond(405) }
   function add_route(e,method,route,callback){
     routes[method].push({
       name: route.toString(),
@@ -81,7 +82,7 @@ platform(function Responder(__, storage){                                       
     __.kick('noRoute');
   }
   function match_method(e){
-    __.kick('http_GET')
+    __.kick('HTTP_GET')
   }
   
   init();
