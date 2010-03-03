@@ -1,5 +1,5 @@
 
-(function __($){
+(function __($, window){
 
 platform= function(module, store){ return module && use.apply(__, arguments) || __ }   //T1 T22
 $.__= function(){ return platform.apply(__, arguments) }                               //T24
@@ -43,4 +43,4 @@ function utilize(kind, version, methods){ var slot; return version && (slot= slo
 
 setup();
 
-})(jQuery);
+})(jQuery, this);
