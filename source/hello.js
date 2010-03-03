@@ -4,7 +4,7 @@
 platform(function HelloWorld(__, storage){
   var store
   __
-  .extend({
+  .api('0.1', {
     hello: function(url, method){ __.kick('Hello') },                                  //T3
   })
   .on('Restart', init)                                                                 //T*

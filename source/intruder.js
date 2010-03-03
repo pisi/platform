@@ -3,16 +3,18 @@
 
 platform(function EvilIntruder(__, storage){
   __
-  .extend({
+  .api('0.1', {
     intrude: test_method_intrusion                                                     //T26
   })
   .on('EventIntrusion', test_event_intrusion)                                          //T25
   
   function test_event_intrusion(){                                                     //T25
     equal( typeof this, 'object');
-    equal( typeof this.version, 'undefined' );
+    equal( typeof this.ver, 'undefined' );
     equal( typeof __, 'object');
-    equal( typeof __.version, 'string');
+    equal( typeof __.ver, 'function');
+    equal( typeof __.ver(), 'object');
+    equal( typeof __.ver().__, 'string');
     equal( typeof storage, 'function');
     equal( typeof store, 'undefined');
     equal( typeof config, 'undefined');
@@ -25,9 +27,11 @@ platform(function EvilIntruder(__, storage){
   }
   function test_method_intrusion(){                                                    //T26
     equal( typeof this, 'object');
-    equal( typeof this.version, 'string');
+    equal( typeof this.ver, 'function');
     equal( typeof __, 'object');
-    equal( typeof __.version, 'string');
+    equal( typeof __.ver, 'function');
+    equal( typeof __.ver(), 'object');
+    equal( typeof __.ver().__, 'string');
     equal( typeof storage, 'function');
     equal( typeof store, 'undefined');
     equal( typeof config, 'undefined');
