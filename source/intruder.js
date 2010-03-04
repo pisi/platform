@@ -22,7 +22,7 @@ platform(function EvilIntruder(__, storage){
     equal( typeof use, 'undefined');
     equal( typeof use_storage, 'undefined');
     equal( typeof many, 'undefined');
-    equal( typeof event, 'undefined');
+    ok( typeof event == 'undefined' || typeof event == 'object');
     equal( typeof trigger, 'undefined');
   }
   function test_method_intrusion(){                                                    //T26
@@ -39,7 +39,7 @@ platform(function EvilIntruder(__, storage){
     equal( typeof use, 'undefined');
     equal( typeof use_storage, 'undefined');
     equal( typeof many, 'undefined');
-    equal( typeof event, 'undefined');
+    ok( typeof event == 'undefined' || typeof event == 'object');
     equal( typeof trigger, 'undefined');
   }
 }, {
