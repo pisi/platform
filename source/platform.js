@@ -3,6 +3,7 @@
 
 platform= function(module, store){ return module && use.apply(__, arguments) || __ }   //T1 T22
 $.__= function(){ return platform.apply(__, arguments) }                               //T24
+Function.prototype.id= function(){ return identify(this); }
 
 var
   config= {                                                                            //T7
@@ -14,6 +15,7 @@ var
   },
   versions= { module: {}, api: {} },
   storage                                                                              //T4
+
 __
 .ver('0.1.3')                                                                          //T2
 .api('0.2', {
@@ -34,14 +36,23 @@ function utilize(kind, version, methods, slot){ return version && (slot= slot())
   && __
   || versions[kind]
   function slot(){ return crawl(arguments.callee.caller)
-    function crawl(it){ return it && it.name
-      && function module(){ return it.name.match(/^[A-Z]|^__$/) }()
-      && it.name
+    function crawl(it, name){ return it && (name= it.id())
+      && function module(){ return name.toString().match(/^[A-Z]|^__$/) }()
+      && name
       || function seek(){ return it.caller && crawl(it.caller) || '__' }()
     }
   }
 }
-
+function identify(that, match){ return that.name
+  || function extract(){ return match= that.toString().match(/^function (\S+)\(/g) }()
+  && function purify(){ return match.toString().replace(/function|\(|\s+/g, '') }()
+}
 setup();
 
+/* dev helpers */
+typeof console == 'undefined' && (console= { log: function(){} })
+function log(note,value){ console.log(note,value); return value }
+
 })(jQuery, this);
+
+
