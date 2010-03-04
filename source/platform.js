@@ -27,12 +27,12 @@ function teardown(){ storage= undefined || true }
 function use(module, defaults){ return module(__, store(module.name, defaults))        //T22
   function store(name, data){ return function(){ return storage[name]= data }}         //T22
 }
-function ver(version){ return utilize('module', version) }
+function ver(version){ return utilize('module', version) }                             //T2
 function api(version, methods){ return utilize('api', version, methods) }              //T23
 function utilize(kind, version, methods, slot){ return version && (slot= slot())
-  && function free(){ return versions[kind][slot] == undefined }()
-  && function use(){ return versions[kind][slot]= version }()
-  && function extend(){ return methods && $.extend(__, methods) || true }()
+  && function free(){ return versions[kind][slot] == undefined }()                     //T28
+  && function use(){ return versions[kind][slot]= version }()                          //T2 T23
+  && function extend(){ return methods && $.extend(__, methods) || true }()            //T23
   && __                                                                                //T1
   || versions[kind]                                                                    //T2 T23
   function slot(){ return crawl(arguments.callee.caller)

@@ -24,20 +24,32 @@ test( 'T6: API - events (only for testing purposes)', function(){
   equal(typeof __.kick, 'function');
 });
 test( 'T23: API - api (for extending the API)', function ApiTestModule(){
-  expect(6);
+  expect(8);
   __
   .api('0.1', {
     my_public_method: function(){
       ok( true );
       return __;
     }
-  })
-  .my_public_method();
+  });
+  equal( typeof __.my_public_method, 'function');
+  equal( typeof __.my_public_method(), 'object');
   equal( typeof __.api(), 'object');
   equal( typeof __.api().__, 'string');
   equal( __.api().__, '0.2');
   equal( typeof __.api().ApiTestModule, 'string');
   equal( __.api().ApiTestModule, '0.1');
+});
+test( 'T28: API - allow only one extension per module', function ApiTestModule(){
+  __
+  .api('99.9', {
+    fake_public_method: function(){
+      ok( false );
+      return __;
+    }
+  });
+	equal( __.api().ApiTestModule, '0.1');
+	equal( typeof __.fake_public_method, 'undefined');
 });
 test( 'T24: jQuery.__ namespace convenient shortcut', function(){
   equal( typeof jQuery.__, 'function');
