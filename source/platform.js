@@ -36,7 +36,7 @@ function utilize(kind, version, methods, slot){ return version && (slot= slot())
   && __                                                                                //T1
   || versions[kind]                                                                    //T2 T23
   function slot(){ return crawl(arguments.callee.caller)
-    function crawl(it, name){ return it && (name= it.id())
+    function crawl(it, name){ return it && (name= it.id())                             //T27
       && function module(){ return name.toString().match(/^[A-Z]|^__$/) }()
       && name
       || function seek(){ return it.caller && crawl(it.caller) || '__' }()
@@ -45,7 +45,7 @@ function utilize(kind, version, methods, slot){ return version && (slot= slot())
 }
 setup();
 
-function identify(that, match){ return that.name
+function identify(that, match){ return that.name                                       //T27
   || function extract(){ return match= that.toString().match(/^function (\S+)\(/g) }()
   && function dry(){ return match.toString().replace(/function|\(|\s+/g, '') }()
 }
