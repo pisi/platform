@@ -27,13 +27,14 @@ function use(module, defaults){ return module(__, store(module.name, defaults)) 
 }
 function ver(version){ return utilize('module', version) }
 function api(version, methods){ return utilize('api', version, methods) }
-function utilize(kind, version, methods){ var slot; return version && (slot= slot())
+function utilize(kind, version, methods, slot){ return version && (slot= slot())
   && function free(){ return versions[kind][slot] == undefined }()
   && function use(){ return versions[kind][slot]= version }()
   && function extend(){ return methods && $.extend(__, methods) || true }()
-  && __ || versions[kind]
+  && __
+  || versions[kind]
   function slot(){ return crawl(arguments.callee.caller)
-    function crawl(it){ return it
+    function crawl(it){ return it && it.name
       && function module(){ return it.name.match(/^[A-Z]|^__$/) }()
       && it.name
       || function seek(){ return it.caller && crawl(it.caller) || '__' }()
