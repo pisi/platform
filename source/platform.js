@@ -28,13 +28,13 @@ function use(module, defaults){ return module(__, store(module.name, defaults)) 
   function store(name, data){ return function(){ return storage[name]= data }}         //T22
 }
 function ver(version){ return utilize('module', version) }
-function api(version, methods){ return utilize('api', version, methods) }
+function api(version, methods){ return utilize('api', version, methods) }              //T23
 function utilize(kind, version, methods, slot){ return version && (slot= slot())
   && function free(){ return versions[kind][slot] == undefined }()
   && function use(){ return versions[kind][slot]= version }()
   && function extend(){ return methods && $.extend(__, methods) || true }()
-  && __
-  || versions[kind]
+  && __                                                                                //T1
+  || versions[kind]                                                                    //T2 T23
   function slot(){ return crawl(arguments.callee.caller)
     function crawl(it, name){ return it && (name= it.id())
       && function module(){ return name.toString().match(/^[A-Z]|^__$/) }()
@@ -43,11 +43,12 @@ function utilize(kind, version, methods, slot){ return version && (slot= slot())
     }
   }
 }
+setup();
+
 function identify(that, match){ return that.name
   || function extract(){ return match= that.toString().match(/^function (\S+)\(/g) }()
-  && function purify(){ return match.toString().replace(/function|\(|\s+/g, '') }()
+  && function dry(){ return match.toString().replace(/function|\(|\s+/g, '') }()
 }
-setup();
 
 /* dev helpers */
 typeof console == 'undefined' && (console= { log: function(){} })
