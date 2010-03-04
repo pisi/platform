@@ -13,7 +13,7 @@ var
     ver: function(/* version */){ return ver.apply(window, arguments) },                              //T2
     api: function(/* version, methods */){ return api.apply(window, arguments) }                      //T23
   },
-  versions= { module: {}, api: {} },
+  versions= { module: {}, api: {} },                                                                  //T4
   storage                                                                                             //T4
 
 __

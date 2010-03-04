@@ -70,6 +70,8 @@ test( 'T24: jQuery.__ namespace convenient shortcut', function(){
 test( 'T4: Maintains private data storage inside closure', function(){
   equal( typeof storage, 'undefined' );
   equal( typeof __.storage, 'undefined' );
+  equal( typeof versions, 'undefined' );
+  equal( typeof __.versions, 'undefined' );
 });
 test( 'T7: Private configuration', function(){
   equal( typeof config, 'undefined' );
