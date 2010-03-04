@@ -50,9 +50,8 @@ function identify(that, match){ return that.name                                
   && function dry(){ return match.toString().replace(/function|\(|\s+/g, '') }()
 }
 
-/* dev helpers */
-typeof console == 'undefined' && (console= { log: function(){} })
-function log(note,value){ console.log(note,value); return value }
+/* dev helper */ typeof console == 'undefined' && (console= { log: function(){} });
+/* dev helper */ function log(note,value){ console.log(note,value); return value }
 
 })(jQuery, this);
 
