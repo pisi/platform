@@ -3,7 +3,7 @@
 
 platform= function(module, store){ return module && use.apply(__, arguments) || __ }                  //T1 T22
 $.__= function(){ return platform.apply(__, arguments) }                                              //T24
-Function.prototype.id= function(){ return identify(this); }                                           //T27
+Function.prototype.id= function(){ return identify(this) }                                            //T27
 
 var
   config= {                                                                                           //T7
@@ -18,7 +18,7 @@ var
 
 __
 .ver('0.1.3')                                                                                         //T2
-.api('0.2', {
+.api('0.2', {                                                                                         //T23
    restart: function(){ teardown() && setup(); return __ }                                            //T21
 })
 
