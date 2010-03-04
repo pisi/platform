@@ -57,7 +57,10 @@ test( 'T7: Private configuration', function(){
   equal( typeof config, 'undefined' );
   equal( typeof __.config, 'undefined' );
 });
-
+test( 'T27: Function.id() function identification method', function(){
+	function testFunction(){}
+	equal( testFunction.id(), 'testFunction');
+});
 module( 'Events' );
 
 test( 'T5: Reacts on event kick', function(){
