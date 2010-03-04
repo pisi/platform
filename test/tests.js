@@ -48,8 +48,8 @@ test( 'T28: API - allow only one extension per module', function ApiTestModule()
       return __;
     }
   });
-	equal( __.api().ApiTestModule, '0.1');
-	equal( typeof __.fake_public_method, 'undefined');
+  equal( __.api().ApiTestModule, '0.1');
+  equal( typeof __.fake_public_method, 'undefined');
 });
 test( 'T24: jQuery.__ namespace convenient shortcut', function(){
   equal( typeof jQuery.__, 'function');
@@ -76,8 +76,8 @@ test( 'T7: Private configuration', function(){
   equal( typeof __.config, 'undefined' );
 });
 test( 'T27: Function.id() function identification method', function(){
-	function testFunction(){}
-	equal( testFunction.id(), 'testFunction');
+  function testFunction(){}
+  equal( testFunction.id(), 'testFunction');
 });
 module( 'Events' );
 
