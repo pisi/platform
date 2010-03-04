@@ -21,7 +21,7 @@ platform(function Responder(__, storage){
   
   function setup(){ store= storage() }
   function teardown(){ store= undefined }
-  function dump(){ console.log(__, __.ver().__, __.ver().Responder, this, config, store, routes) }
+  function dump(){ console.log(__, __.ver().Responder, __.ver().__, this, config, store, routes) }
 
   function methods(methods){ return store.methods= store.methods || methods && allow()
     function allow(){ $.each(methods.split(/ /), api_method); return methods
@@ -36,17 +36,19 @@ platform(function Responder(__, storage){
   function route(method, uri, callback){ return routes[method][uri.toString()]= register()
     function register(){ return { pattern: uri, callback: callback } }
   }
-  function request(method, uri){ var result;
-    return function proper(){ return typeof uri=='string' }()
+  function request(method, uri, result){ return method && uri
+    && function proper(){ return typeof uri== 'string' }()
     && function tidy(){ return uri= uri.replace(/^(\/| +)| +$/g, '') }()
     && function allowed(){ return store.methods.indexOf(method) >= 0 }()
     && function found(){ return route(method) }()
-    && function before(){ var matched= route('before'); return result= matched && matched(result) || result }()
-    && function execute(){ var matched= route(method); return result= matched && matched(result) }()
-    && function after(){ var matched= route('after'); return result= matched && matched(result) || result }()
+    && function prepare(){ return (result= '') || true }()
+    && function before(){ return apply_route('before') }()!== false
+    && function process(){ return apply_route(method) }()!== false
+    && function after(){ return apply_route('after') }()!== false
     && function success(){ return respond(200, result) }()
     || function error(){ return respond(404) }()
-    function route(dir){ var matched; $.each(routes[dir], match); return matched
+    function apply_route(dir, matched){ return (matched= route(dir)) && (result= matched(result)) || result }
+    function route(dir, matched){ $.each(routes[dir], match); return matched
       function match(){ return uri.match(this.pattern) && (matched= this.callback) && false }
     }
     function respond(code, body){ console.log(code,method,uri,body); return code }
@@ -54,6 +56,8 @@ platform(function Responder(__, storage){
   function before(uri, callback){ return route('before', uri, callback) }
   function after(uri, callback){ return route('after', uri, callback) }
   setup();
+
+  /* dev helper */ function log(note,value){ console.log(note,value); return value }
 },{
   
 });

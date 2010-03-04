@@ -10,10 +10,10 @@
   .after( 'POST', function(result){ return result + " POSTED" })
   
   .GET( /^test_path\/?$/, function(result){
+    // return false;
     return result + 'AJHDGADJGH';
   })
   .GET( /^without_params\/?$/, function(result){
-    return false;
     return result + 'AJHDGADJGH';
   })
   .GET( /^with_params\/?/, function(result){
