@@ -4,11 +4,11 @@
 platform(function EvilIntruder(__, storage){
   __
   .api('0.1', {
-    intrude: test_method_intrusion                                                     //T26
+    intrude: test_method_intrusion                                                                    //T26
   })
-  .on('EventIntrusion', test_event_intrusion)                                          //T25
+  .on('EventIntrusion', test_event_intrusion)                                                         //T25
   
-  function test_event_intrusion(){                                                     //T25
+  function test_event_intrusion(){                                                                    //T25
     equal( typeof this, 'object');
     equal( typeof this.ver, 'undefined' );
     equal( typeof __, 'object');
@@ -25,7 +25,7 @@ platform(function EvilIntruder(__, storage){
     ok( typeof event == 'undefined' || typeof event == 'object');
     equal( typeof trigger, 'undefined');
   }
-  function test_method_intrusion(){                                                    //T26
+  function test_method_intrusion(){                                                                   //T26
     equal( typeof this, 'object');
     equal( typeof this.ver, 'function');
     equal( typeof __, 'object');
