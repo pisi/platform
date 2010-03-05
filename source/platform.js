@@ -51,7 +51,6 @@ function identify_function(that, match){ return that.name                       
   && function isolate(){ return match.toString().replace(/function|\(|\s+/g, '') }()
 }
 
-/* dev helper */ typeof console == 'undefined' && (console= { log: function(){} });
-/* dev helper */ function log(note,value){ console.log(note,value); return value }
+/* DEV */ __.log= function log(note, value){ return debug.log.apply(window, arguments) || value }
 
 })(jQuery, this);

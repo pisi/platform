@@ -21,7 +21,7 @@ platform(function Responder(__, storage){
   
   function setup(){ store= storage() }
   function teardown(){ store= undefined }
-  function dump(){ console.log(__, __.ver().Responder, __.ver().__, this, config, store, routes) }
+  function dump(){ __.log(__.ver().Responder, __.ver().__, routes) }
 
   function methods(methods){ return store.methods= store.methods || methods && allow()
     function allow(){ $.each(methods.split(/ /), api_method); return methods
@@ -51,13 +51,12 @@ platform(function Responder(__, storage){
     function route(dir, matched){ $.each(routes[dir], match); return matched
       function match(){ return uri.match(this.pattern) && (matched= this.callback) && false }
     }
-    function respond(code, body){ console.log(code,method,uri,body); return code }
+    function respond(code, body){ __.log(code,method,uri,body); return code }
   }
   function before(uri, callback){ return route('before', uri, callback) }
   function after(uri, callback){ return route('after', uri, callback) }
   setup();
 
-  /* dev helper */ function log(note,value){ console.log(note,value); return value }
 },{
   
 });

@@ -28,7 +28,7 @@ platform(function Events(__, storage){
   function trigger(events, data){ report(); $.each(many(events), process)                             //T11 T12 T13 T15
     function process(i,event){ pool.trigger(event, data) }                                            //T5
     function report(){ config.debug && log()
-      function log(){ console.log(events.length==1 && events[0] || events, data || '') }              //D
+      function log(){ debug.log(events.length==1 && events[0] || events, data || '') }                //D
     }
   }
   setup();
