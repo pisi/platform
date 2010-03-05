@@ -77,10 +77,11 @@ test( 'T7: Private configuration', function(){
   equal( typeof config, 'undefined' );
   equal( typeof __.config, 'undefined' );
 });
-test( 'T27: Function.id() function identification method', function(){
+test( 'T27: Function.identify() IE helper', function(){
   function testFunction(){}
-  equal( testFunction.id(), 'testFunction');
+  equal( testFunction.identify(), 'testFunction');
 });
+
 module( 'Events' );
 
 test( 'T5: Reacts on event kick', function(){
